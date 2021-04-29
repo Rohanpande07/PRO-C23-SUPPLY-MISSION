@@ -17,7 +17,7 @@ function setup() {
 	rectMode(CENTER);
 	
 
-	packageSprite=createSprite(width/2, 80, 10,10);
+	packageSprite=createSprite(width/2,80,10,10);
 	packageSprite.addImage(packageIMG)
 	packageSprite.scale=0.2
 
@@ -92,13 +92,13 @@ function draw() {
 
   if (keyCode === DOWN_ARROW)
   {
-	  Body.setStatic(packageBody,false);
+    Body.setStatic(packageBody,false);
   }
 
-  //if(boxBottomBody.isTouching(packageSprite))
+  //if(packageSprite.isTouching(boxBottomBody))
   //{
-	//  Body.setStatic(packageBody,true);
-  //}
+//	Body.setStatic(packageBody,true);
+//  }
   
   drawSprites(); 
 }
