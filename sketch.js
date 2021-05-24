@@ -1,4 +1,4 @@
-var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
+var helicopterIMG, helicopterSprite, packageSprite,packageIMG,backgroundImg;
 var packageBody,ground
 const Engine = Matter.Engine;
 const World = Matter.World;
@@ -10,6 +10,7 @@ function preload()
 {
 	helicopterIMG=loadImage("helicopter.png");
 	packageIMG=loadImage("package.png");
+	backgroundImg = loadImage("backgroundIMG.png");
 }
 
 function setup() {
@@ -17,11 +18,11 @@ function setup() {
 	rectMode(CENTER);
 	
 
-	packageSprite=createSprite(width/2,80,10,10);
+	packageSprite=createSprite(width/5,100,10,10);
 	packageSprite.addImage(packageIMG)
 	packageSprite.scale=0.2
 
-	helicopterSprite=createSprite(width/2, 200, 10,10);
+	helicopterSprite=createSprite(width/5, 100, 10,10);
 	helicopterSprite.addImage(helicopterIMG)
 	helicopterSprite.scale=0.6
 
@@ -32,7 +33,7 @@ function setup() {
 	engine = Engine.create();
 	world = engine.world;
 
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
+	packageBody = Bodies.circle(width/5, 100 , 5 , {restitution:0.4, isStatic:true});
 	World.add(world, packageBody);
 
 	//Create a Ground
@@ -52,8 +53,8 @@ function setup() {
  	boxBase=createSprite(boxPosition+100, boxY+40, 200,20);
  	boxBase.shapeColor=color(255,0,0);
 
- 	boxBottomBody = Bodies.rectangle(boxPosition+100, boxY+45-20, 200,20 , {isStatic:true} );
- 	World.add(world, boxBottomBody);
+ 	boxbottomSprite = createSprite(boxPosition+100,boxY+40,200,20);
+ 	boxbottomSprite.shapeColor = color(255,0,0);
 
  	boxleftSprite=createSprite(boxPosition+200 , boxY, 20,100);
  	boxleftSprite.shapeColor=color(255,0,0);
@@ -68,37 +69,30 @@ function setup() {
 
 function draw() {
   rectMode(CENTER);
-  background(0);
-
-  edges = createEdgeSprites();
-  helicopterSprite.bounceOff(edges);
-  packageSprite.bounceOff(edges);
-
+  background(backgroundImg);
  
   packageSprite.x= packageBody.position.x;
   packageSprite.y= packageBody.position.y;
 
   if (keyCode === LEFT_ARROW)
   {
-	  helicopterSprite.x = helicopterSprite.x-5;
-	  Body.translate(packageBody, {x:-5, y:0});
+	  helicopterSprite.x = helicopterSprite.x-7;
+	  Body.translate(packageBody, {x:-7, y:0});
   }
 
   if (keyCode === RIGHT_ARROW)
   {
-	  helicopterSprite.x = helicopterSprite.x+5;
-	  Body.translate(packageBody, {x:+5, y:0})
+	  helicopterSprite.x = helicopterSprite.x+7;
+	  Body.translate(packageBody, {x:+7, y:0})
   }
 
-  if (keyCode === DOWN_ARROW)
-  {
+  if (keyCode === DOWN_ARROW){
     Body.setStatic(packageBody,false);
   }
 
-  //if(packageSprite.isTouching(boxBottomBody))
-  //{
-//	Body.setStatic(packageBody,true);
-//  }
+  if(packageSprite.isTouching(boxbottomSprite)){
+	Body.setStatic(packageBody,true);
+  }
   
   drawSprites(); 
 }
